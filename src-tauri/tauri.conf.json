@@ -14,7 +14,9 @@
       {
         "title": "finman",
         "width": 1100,
-        "height": 800
+        "height": 800,
+        "minWidth": 1100,
+        "minHeight": 800
       }
     ],
     "security": {
