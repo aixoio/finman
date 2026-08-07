@@ -22,6 +22,8 @@
     }
   },
   "bundle": {
+    "licenseFile": "../LICENSE",
+    "license": "AGPL-3.0-or-later",
     "active": true,
     "targets": "all",
     "icon": [

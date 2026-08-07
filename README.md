@@ -1,7 +1,13 @@
-# Tauri + SvelteKit + TypeScript
+# finman
 
-This template should help get you started developing with Tauri, SvelteKit and TypeScript in Vite.
+Savings goal managment.
 
-## Recommended IDE Setup
+# License
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+This file is part of finman.
+
+finman is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+finman is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with finman. If not, see <https://www.gnu.org/licenses/>.
