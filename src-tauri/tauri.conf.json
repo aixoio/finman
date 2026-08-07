@@ -13,6 +13,9 @@
     "windows": [
       {
         "title": "finman",
+        "decorations": true,
+        "titleBarStyle": "Visible",
+        "backgroundColor": "#171717",
         "width": 1100,
         "height": 800,
         "minWidth": 1100,
