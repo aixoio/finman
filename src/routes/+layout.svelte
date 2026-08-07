@@ -5,6 +5,10 @@
     const { children } = $props();
 </script>
 
-<Sidebar></Sidebar>
+<div class="flex min-h-screen">
+    <Sidebar></Sidebar>
 
-{@render children()}
+    <main class="min-w-0 flex-1">
+        {@render children()}
+    </main>
+</div>
