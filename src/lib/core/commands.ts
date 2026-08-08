@@ -62,3 +62,33 @@ export async function select_all_items_not_archived(): Promise<
     };
   }
 }
+
+export async function insert_item(
+  name: string,
+  comment: string | null,
+  item_type: ItemType,
+  target_cents: number,
+  current_cents: number,
+): Promise<AppResult<string>> {
+  try {
+    const uuid: string = await invoke("insert_item", {
+      name,
+      comment,
+      item_type,
+      target_cents,
+      current_cents,
+    });
+
+    return {
+      ok: true,
+      data: uuid,
+    };
+  } catch (error: unknown) {
+    if (!is_app_error(error)) throw error;
+
+    return {
+      ok: false,
+      data: error,
+    };
+  }
+}
