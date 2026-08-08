@@ -1,16 +1,18 @@
 use std::str::FromStr;
 
+use chrono::{DateTime, Local};
 use serde::{Deserialize, Serialize};
 use sqlx::{
     sqlite::{SqliteConnectOptions, SqlitePoolOptions},
     Row, SqlitePool,
 };
+use uuid::Uuid;
 
 use crate::errors::{AppError, AppResult};
 
 pub const DATABASE_FILENAME: &str = "finman_database.sqlite3";
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
 pub enum ItemType {
     Savings,
     SelfLoan,
@@ -83,5 +85,35 @@ impl Database {
         }
 
         Ok(items)
+    }
+
+    pub async fn insert_item(
+        &self,
+        name: &str,
+        comment: Option<&str>,
+        item_type: ItemType,
+        target_cents: i64,
+        current_cents: i64,
+    ) -> AppResult<String> {
+        let item_type = serde_json::to_string(&item_type)
+            .map_err(|e| AppError::DatabaseError(e.to_string()))?;
+        let uuid = Uuid::new_v4().to_string();
+        let created_at: DateTime<Local> = Local::now();
+        let created_at = created_at.to_rfc3339();
+
+        sqlx::query("INSERT INTO items (uuid, name, comment, item_type, target_cents, current_cents, archived, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, FALSE, ?, ?)")
+            .bind(&uuid)
+            .bind(name)
+            .bind(comment)
+            .bind(&item_type)
+            .bind(target_cents)
+            .bind(current_cents)
+            .bind(&created_at)
+            .bind(&created_at)
+            .execute(&self.pool)
+            .await
+            .map_err(|e| AppError::DatabaseError(e.to_string()))?;
+
+        Ok(uuid)
     }
 }
