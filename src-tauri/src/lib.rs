@@ -4,6 +4,7 @@ use tauri::Manager;
 
 use crate::database::{Database, DATABASE_FILENAME};
 
+mod commands;
 mod database;
 mod errors;
 
