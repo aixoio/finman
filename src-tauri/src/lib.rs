@@ -5,6 +5,7 @@ use tauri::Manager;
 use crate::database::{Database, DATABASE_FILENAME};
 
 mod database;
+mod errors;
 
 struct AppState {
     database: Database,
