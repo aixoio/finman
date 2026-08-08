@@ -3,7 +3,7 @@ CREATE TABLE items (
     uuid TEXT PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
     comment TEXT,
-    type TEXT NOT NULL,
+    item_type TEXT NOT NULL,
     target_cents INTEGER NOT NULL,
     current_cents INTEGER NOT NULL,
     archived BOOLEAN NOT NULL DEFAULT FALSE,

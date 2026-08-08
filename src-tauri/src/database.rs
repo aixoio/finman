@@ -7,6 +7,24 @@ use sqlx::{
 
 pub const DATABASE_FILENAME: &str = "finman_database.sqlite3";
 
+pub enum ItemType {
+    Savings,
+    SelfLoan,
+    ExternalLoan,
+}
+
+pub struct Item {
+    uuid: String,
+    name: String,
+    comment: Option<String>,
+    item_type: ItemType,
+    target_cents: i64,
+    current_cents: i64,
+    archived: bool,
+    created_at: String,
+    updated_at: String,
+}
+
 pub struct Database {
     pool: SqlitePool,
 }
