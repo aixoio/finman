@@ -1,3 +1,5 @@
+import { invoke } from "@tauri-apps/api/core";
+
 export enum ItemType {
   Savings = "Savings",
   SelfLoan = "SelfLoan",
@@ -25,7 +27,38 @@ export interface AppError {
   message: string;
 }
 
-export type AppOk<V> = { kind: "ok"; data: V };
-export type AppErr = { kind: "err"; data: AppError };
+function is_app_error(error: unknown): error is AppError {
+  if (!error || typeof error !== "object") return false;
+
+  const { type, message } = error as Record<string, unknown>;
+
+  return (
+    typeof message === "string" &&
+    Object.values(AppErrorType).includes(type as AppErrorType)
+  );
+}
+
+export type AppOk<V> = { ok: true; data: V };
+export type AppErr = { ok: false; data: AppError };
 
 export type AppResult<V> = AppOk<V> | AppErr;
+
+export async function select_all_items_not_archived(): Promise<
+  AppResult<Item[]>
+> {
+  try {
+    const data: Item[] = await invoke("select_all_items_not_archived");
+
+    return {
+      ok: true,
+      data,
+    };
+  } catch (err: unknown) {
+    if (!is_app_error(err)) throw err;
+
+    return {
+      ok: false,
+      data: err,
+    };
+  }
+}
