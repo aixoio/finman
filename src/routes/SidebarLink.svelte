@@ -25,6 +25,6 @@
     @reference "tailwindcss";
 
     .current {
-        @apply opacity-70;
+        color: var(--color-light-primary);
     }
 </style>
