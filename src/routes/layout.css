@@ -4,6 +4,7 @@
 @theme inline {
     --color-foreground: var(--color-mist-200);
     --color-background: var(--color-mist-900);
+    --color-background-light: var(--color-neutral-200);
     --color-background-dark: var(--color-neutral-900);
 
     --color-light-primary: var(--color-blue-300);

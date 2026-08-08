@@ -11,20 +11,24 @@
     const { href, children, icon }: Props = $props();
 </script>
 
-<a
-    {href}
-    class="flex cursor-pointer items-center gap-2 rounded px-2 py-0.5 hover:bg-foreground/5 active:bg-foreground/20 select-none"
-    class:current={page.url.pathname == href}
->
+{#snippet content()}
     {@render icon()}
     <div class="w-full"></div>
     {@render children()}
-</a>
+{/snippet}
 
-<style lang="postcss">
-    @reference "tailwindcss";
-
-    .current {
-        color: var(--color-light-primary);
-    }
-</style>
+{#if page.url.pathname == href}
+    <a
+        {href}
+        class="flex cursor-pointer active:cursor-pointer items-center gap-2 rounded-lg px-2 py-0.5 bg-background-light/10 hover:bg-background-light/15 active:bg-background-light/20 select-none"
+    >
+        {@render content()}
+    </a>
+{:else}
+    <a
+        {href}
+        class="flex cursor-pointer active:cursor-pointer items-center gap-2 rounded-lg px-2 py-0.5 hover:bg-background-light/5 active:bg-background-light/20 select-none"
+    >
+        {@render content()}
+    </a>
+{/if}
