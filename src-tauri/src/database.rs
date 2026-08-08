@@ -1,10 +1,12 @@
-use std::{error::Error, str::FromStr};
+use std::str::FromStr;
 
 use serde::{Deserialize, Serialize};
 use sqlx::{
     sqlite::{SqliteConnectOptions, SqlitePoolOptions},
     Row, SqlitePool,
 };
+
+use crate::errors::{AppError, AppResult};
 
 pub const DATABASE_FILENAME: &str = "finman_database.sqlite3";
 
@@ -17,15 +19,15 @@ pub enum ItemType {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Item {
-    uuid: String,
-    name: String,
-    comment: Option<String>,
-    item_type: ItemType,
-    target_cents: i64,
-    current_cents: i64,
-    archived: bool,
-    created_at: String,
-    updated_at: String,
+    pub uuid: String,
+    pub name: String,
+    pub comment: Option<String>,
+    pub item_type: ItemType,
+    pub target_cents: i64,
+    pub current_cents: i64,
+    pub archived: bool,
+    pub created_at: String,
+    pub updated_at: String,
 }
 
 pub struct Database {
@@ -44,10 +46,11 @@ impl Database {
         Ok(Self { pool })
     }
 
-    pub async fn select_all_items_not_archived(&self) -> Result<Vec<Item>, Box<dyn Error>> {
+    pub async fn select_all_items_not_archived(&self) -> AppResult<Vec<Item>> {
         let rows = sqlx::query("SELECT * FROM items WHERE archived = FALSE")
             .fetch_all(&self.pool)
-            .await?;
+            .await
+            .map_err(|e| AppError::DatabaseError(e.to_string()))?;
 
         let mut items = Vec::new();
 
@@ -56,7 +59,8 @@ impl Database {
             let name = row.get("name");
             let comment = row.get("comment");
             let item_type: String = row.get("item_type");
-            let item_type: ItemType = serde_json::from_str(&item_type)?;
+            let item_type: ItemType = serde_json::from_str(&item_type)
+                .map_err(|e| AppError::DatabaseError(e.to_string()))?;
             let target_cents = row.get("target_cents");
             let current_cents = row.get("current_cents");
             let archived = row.get("archived");
