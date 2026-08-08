@@ -34,7 +34,8 @@ pub fn run() {
         })
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
-            commands::select_all_items_not_archived
+            commands::select_all_items_not_archived,
+            commands::insert_item,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
