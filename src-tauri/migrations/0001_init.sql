@@ -10,3 +10,5 @@ CREATE TABLE items (
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
 );
+
+CREATE INDEX idx_items_archived ON items (archived);
