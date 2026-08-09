@@ -1,5 +1,7 @@
 @import "tailwindcss";
+
 @plugin "@tailwindcss/typography";
+
 @plugin "daisyui";
 @plugin "daisyui/theme" {
     name: "finman";
@@ -44,13 +46,3 @@
     --depth: 1;
     --noise: 0;
 }
-
-/*@theme inline {
-    --color-foreground: var(--color-neutral-100);
-    --color-background: var(--color-neutral-900);
-    --color-sidebar-white: var(--color-neutral-50);
-    --color-sidebar-background: var(--color-neutral-950);
-
-    --color-light-primary: var(--color-blue-300);
-    --color-primary: var(--color-blue-500);
-}*/
