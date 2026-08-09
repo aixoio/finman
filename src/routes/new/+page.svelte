@@ -41,10 +41,23 @@
 
     type TargetBtnType = "-50%" | "+50%" | "Custom %";
 
+    let target_dialog_percentage: number = $state(10);
+
     let target_dialog_element: HTMLDialogElement;
 
     function target_dialog(btn: TargetBtnType) {
         if (loading) return;
+
+        switch (btn) {
+            case "-50%":
+                target_dialog_percentage = -50;
+                break;
+            case "+50%":
+                target_dialog_percentage = 50;
+                break;
+            default:
+                break;
+        }
 
         target_dialog_element.showModal();
     }
@@ -60,12 +73,30 @@
 
         <span class="text-xs">Presets</span>
         <div class="grid grid-cols-3 gap-2">
-            <button class="btn btn-sm btn-error">-50%</button>
-            <button class="btn btn-sm btn-error">-25%</button>
-            <button class="btn btn-sm btn-error">-10%</button>
-            <button class="btn btn-sm btn-secondary">+25%</button>
-            <button class="btn btn-sm btn-secondary">+50%</button>
-            <button class="btn btn-sm btn-neutral">Double</button>
+            <button
+                onclick={() => (target_dialog_percentage = -50)}
+                class="btn btn-sm btn-error">-50%</button
+            >
+            <button
+                onclick={() => (target_dialog_percentage = -25)}
+                class="btn btn-sm btn-error">-25%</button
+            >
+            <button
+                onclick={() => (target_dialog_percentage = -10)}
+                class="btn btn-sm btn-error">-10%</button
+            >
+            <button
+                onclick={() => (target_dialog_percentage = 25)}
+                class="btn btn-sm btn-secondary">+25%</button
+            >
+            <button
+                onclick={() => (target_dialog_percentage = 50)}
+                class="btn btn-sm btn-secondary">+50%</button
+            >
+            <button
+                onclick={() => (target_dialog_percentage = 100)}
+                class="btn btn-sm btn-neutral">Double</button
+            >
         </div>
 
         <fieldset class="fieldset mt-2">
@@ -75,6 +106,7 @@
                 name="target_precent"
                 id="target_precent"
                 class="input w-full"
+                bind:value={target_dialog_percentage}
             />
         </fieldset>
 
