@@ -1,18 +1,38 @@
 <script lang="ts">
-    import { ItemType } from "$lib/core/commands";
+    import { insert_item, ItemType } from "$lib/core/commands";
+    import { error } from "@sveltejs/kit";
 
     let loading = $state(false);
 
     let name: string = $state("");
-    let comment: string | null = $state(null);
+    let comment: string = $state("");
     let item_type: ItemType = $state(ItemType.Savings);
     let target: number = $state(0);
     let current: number = $state(0);
 
-    function onsubmit(event: SubmitEvent): void {
+    async function onsubmit(event: SubmitEvent): Promise<void> {
         event.preventDefault();
 
         loading = true;
+
+        const insert_comment =
+            comment.trim().length === 0 ? null : comment.trim();
+        const target_cents = target * 100;
+        const current_cents = current * 100;
+
+        const result = await insert_item(
+            name,
+            insert_comment,
+            item_type,
+            target_cents,
+            current_cents,
+        );
+        if (!result.ok) error(500, result.data);
+        const uuid = result.data;
+
+        console.log(`uuid: ${uuid}`);
+
+        // TODO: send user to `/item/${uuid}`
     }
 </script>
 

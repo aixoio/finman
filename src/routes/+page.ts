@@ -5,7 +5,7 @@ import type { PageLoad } from "./$types";
 export const load: PageLoad = async () => {
   const result = await select_all_items_not_archived();
   if (!result.ok) {
-    error(500, JSON.stringify(result.data));
+    error(500, result.data);
   }
 
   return {
