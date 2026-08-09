@@ -13,12 +13,12 @@
     --color-base-200: var(--color-neutral-950);
     --color-base-300: var(--color-bl);
     --color-base-content: var(--color-neutral-50);
-    --color-primary: var(--color-emerald-500);
-    --color-primary-content: var(--color-emerald-950);
-    --color-secondary: var(--color-blue-500);
-    --color-secondary-content: var(--color-blue-100);
-    --color-accent: var(--color-teal-500);
-    --color-accent-content: var(--color-teal-950);
+    --color-primary: var(--color-blue-500);
+    --color-primary-content: var(--color-blue-100);
+    --color-secondary: var(--color-emerald-500);
+    --color-secondary-content: var(--color-emerald-100);
+    --color-accent: var(--color-indigo-500);
+    --color-accent-content: var(--color-indigo-50);
     --color-neutral: var(--color-neutral-800);
     --color-neutral-content: var(--color-neutral-50);
     --color-info: var(--color-cyan-400);
@@ -28,7 +28,7 @@
     --color-warning: var(--color-amber-400);
     --color-warning-content: var(--color-amber-900);
     --color-error: var(--color-red-500);
-    --color-error-content: var(--color-red-950);
+    --color-error-content: var(--color-red-100);
 
     /* border radius */
     --radius-selector: var(--radius-xl);

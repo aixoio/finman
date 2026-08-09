@@ -73,6 +73,12 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="divider"></div>
+
+                <button type="submit" class="btn btn-primary w-full"
+                    >create</button
+                >
             </fieldset>
         </form>
     </div>
