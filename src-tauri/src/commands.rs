@@ -2,7 +2,7 @@ use tauri::State;
 
 use crate::{
     database::{Item, ItemType},
-    errors::AppResult,
+    errors::{AppError, AppResult},
     AppState,
 };
 
@@ -20,6 +20,22 @@ pub async fn insert_item(
     target_cents: i64,
     current_cents: i64,
 ) -> AppResult<String> {
+    let name = name.trim();
+    if name.is_empty() {
+        return Err(AppError::InputError("name cannot be empty".into()));
+    }
+
+    let comment = comment
+        .map(|c| c.trim().to_string())
+        .filter(|c| c.is_empty());
+
+    let target_cents = target_cents.abs();
+    if target_cents == 0 {
+        return Err(AppError::InputError("target cannot be zero".into()));
+    }
+
+    let current_cents = current_cents.abs();
+
     let uuid = state
         .database
         .insert_item(

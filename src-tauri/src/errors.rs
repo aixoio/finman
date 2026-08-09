@@ -9,4 +9,7 @@ pub type AppResult<T> = Result<T, AppError>;
 pub enum AppError {
     #[error("database error")]
     DatabaseError(String),
+
+    #[error("input error")]
+    InputError(String),
 }
