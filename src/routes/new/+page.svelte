@@ -39,11 +39,11 @@
         goto("/");
     }
 
-    type BtnType = "-50%" | "+50%" | "Custom %";
+    type TargetBtnType = "-50%" | "+50%" | "Custom %";
 
     let target_dialog_element: HTMLDialogElement;
 
-    function target_dialog(btn: BtnType) {
+    function target_dialog(btn: TargetBtnType) {
         if (loading) return;
 
         target_dialog_element.showModal();
