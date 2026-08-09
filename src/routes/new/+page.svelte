@@ -53,6 +53,10 @@
 <dialog bind:this={target_dialog_element} class="modal">
     <div class="modal-box">
         <h1 class="font-bold text-2xl">Adjust Target Amount</h1>
+        <div class="flex justify-between text-sm text-base-content/50">
+            <span>Current target</span>
+            <span>${current}</span>
+        </div>
         <div class="modal-action">
             <button
                 class="btn btn-neutral"
