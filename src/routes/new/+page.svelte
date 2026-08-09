@@ -1,4 +1,4 @@
-<div class="mx-auto max-w-2/3">
+<div class="xl:mx-auto xl:max-w-2/3 not-xl:m-8">
     <div class="mt-10">
         <h1 class="text-3xl font-bold">new</h1>
         <div class="divider"></div>
@@ -49,7 +49,29 @@
                         </div>
                     </div>
 
-                    <div></div>
+                    <div>
+                        <label for="starting" class="label"
+                            >starting amount</label
+                        >
+                        <input
+                            type="number"
+                            name="starting"
+                            id="starting"
+                            class="input w-full"
+                            required
+                        />
+                        <div class="grid grid-cols-3 gap-1 pt-2">
+                            <button type="button" class="btn btn-sm btn-accent"
+                                >10% of target</button
+                            >
+                            <button type="button" class="btn btn-sm btn-accent"
+                                >50% of target</button
+                            >
+                            <button type="button" class="btn btn-sm btn-neutral"
+                                >Custom %</button
+                            >
+                        </div>
+                    </div>
                 </div>
             </fieldset>
         </form>
