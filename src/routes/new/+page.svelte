@@ -55,6 +55,10 @@
             case "+50%":
                 target_dialog_percentage = 50;
                 break;
+            case "Custom %":
+                target_dialog_percentage = 10;
+                break;
+
             default:
                 break;
         }
