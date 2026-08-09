@@ -20,7 +20,7 @@
 {#if page.url.pathname == href}
     <a
         {href}
-        class="flex cursor-pointer active:cursor-pointer items-center gap-2 text-neutral-content/90 rounded-box px-2 py-0.5 bg-neutral hover:bg-neutral-content/15 active:bg-neutral-content/20 select-none"
+        class="flex cursor-pointer active:cursor-pointer items-center gap-2 text-neutral-content/90 rounded-box px-2 py-0.5 bg-neutral hover:bg-neutral-content/15 active:bg-neutral-content/20 select-none shadow"
     >
         {@render content()}
     </a>
