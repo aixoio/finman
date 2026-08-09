@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
     import { insert_item, ItemType } from "$lib/core/commands";
     import { error } from "@sveltejs/kit";
 
@@ -27,12 +28,15 @@
             target_cents,
             current_cents,
         );
+        loading = false;
+
         if (!result.ok) error(500, result.data);
         const uuid = result.data;
 
         console.log(`uuid: ${uuid}`);
 
         // TODO: send user to `/item/${uuid}`
+        goto("/");
     }
 </script>
 
