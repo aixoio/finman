@@ -74,9 +74,9 @@ export async function insert_item(
     const uuid: string = await invoke("insert_item", {
       name,
       comment,
-      item_type,
-      target_cents,
-      current_cents,
+      itemType: item_type,
+      targetCents: target_cents,
+      currentCents: current_cents,
     });
 
     return {
