@@ -24,6 +24,33 @@
                     <option value="SelfLoan">Self Loan</option>
                     <option value="ExternalLoan">External Loan</option>
                 </select>
+
+                <div class="w-full grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="target" class="label">target amount</label>
+                        <input
+                            type="number"
+                            name="target"
+                            id="target"
+                            class="input w-full"
+                            required
+                        />
+                        <div class="grid grid-cols-3 gap-1 pt-2">
+                            <button type="button" class="btn btn-sm btn-error"
+                                >-50%</button
+                            >
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-secondary">+50%</button
+                            >
+                            <button type="button" class="btn btn-sm btn-neutral"
+                                >Custom %</button
+                            >
+                        </div>
+                    </div>
+
+                    <div></div>
+                </div>
             </fieldset>
         </form>
     </div>
