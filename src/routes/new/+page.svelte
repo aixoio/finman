@@ -53,7 +53,7 @@
 <dialog bind:this={target_dialog_element} class="modal">
     <div class="modal-box">
         <h1 class="font-bold text-2xl">Adjust Target Amount</h1>
-        <div class="flex justify-between text-sm text-base-content/50">
+        <div class="flex justify-between text-sm text-base-content/50 mb-2">
             <span>Current target</span>
             <span>${current}</span>
         </div>
@@ -67,6 +67,16 @@
             <button class="btn btn-sm btn-secondary">+50%</button>
             <button class="btn btn-sm btn-neutral">Double</button>
         </div>
+
+        <fieldset class="fieldset mt-2">
+            <label for="target_precent" class="label">Percentage</label>
+            <input
+                type="number"
+                name="target_precent"
+                id="target_precent"
+                class="input w-full"
+            />
+        </fieldset>
 
         <div class="modal-action">
             <button
