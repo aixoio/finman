@@ -6,6 +6,17 @@ export enum ItemType {
   ExternalLoan = "ExternalLoan",
 }
 
+export function display_format_item_type(item_type: ItemType): string {
+  switch (item_type) {
+    case ItemType.Savings:
+      return "Savings";
+    case ItemType.SelfLoan:
+      return "Self Loan";
+    case ItemType.ExternalLoan:
+      return "External Loan";
+  }
+}
+
 export interface Item {
   uuid: string;
   name: string;
