@@ -57,6 +57,17 @@
             <span>Current target</span>
             <span>${current}</span>
         </div>
+
+        <span class="text-xs">Presets</span>
+        <div class="grid grid-cols-3 gap-2">
+            <button class="btn btn-sm btn-error">-50%</button>
+            <button class="btn btn-sm btn-error">-25%</button>
+            <button class="btn btn-sm btn-error">-10%</button>
+            <button class="btn btn-sm btn-secondary">+25%</button>
+            <button class="btn btn-sm btn-secondary">+50%</button>
+            <button class="btn btn-sm btn-neutral">Double</button>
+        </div>
+
         <div class="modal-action">
             <button
                 class="btn btn-neutral"
