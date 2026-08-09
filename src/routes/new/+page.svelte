@@ -38,7 +38,30 @@
         // TODO: send user to `/item/${uuid}`
         goto("/");
     }
+
+    type BtnType = "-50%" | "+50%" | "Custom %";
+
+    let target_dialog_element: HTMLDialogElement;
+
+    function target_dialog(btn: BtnType) {
+        if (loading) return;
+
+        target_dialog_element.showModal();
+    }
 </script>
+
+<dialog bind:this={target_dialog_element} class="modal">
+    <div class="modal-box">
+        <h1 class="font-bold text-2xl">Adjust Target Amount</h1>
+        <div class="modal-action">
+            <button
+                class="btn btn-neutral"
+                onclick={() => target_dialog_element.close()}>Cancel</button
+            >
+            <button class="btn btn-primary">Confirm</button>
+        </div>
+    </div>
+</dialog>
 
 <div class="xl:mx-auto xl:max-w-2/3 not-xl:m-8">
     <div class="mt-10">
@@ -95,16 +118,19 @@
                             <button
                                 type="button"
                                 class="btn btn-sm btn-error"
+                                onclick={() => target_dialog("-50%")}
                                 disabled={loading}>-50%</button
                             >
                             <button
                                 type="button"
                                 disabled={loading}
+                                onclick={() => target_dialog("+50%")}
                                 class="btn btn-sm btn-secondary">+50%</button
                             >
                             <button
                                 type="button"
                                 class="btn btn-sm btn-neutral"
+                                onclick={() => target_dialog("Custom %")}
                                 disabled={loading}>Custom %</button
                             >
                         </div>
