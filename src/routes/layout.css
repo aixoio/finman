@@ -38,7 +38,7 @@
     --size-field: var(--spacing);
 
     /* border size */
-    --border: calc(var(--spacing) / 2);
+    --border: calc(var(--spacing) / 3);
 
     /* effects */
     --depth: 1;
