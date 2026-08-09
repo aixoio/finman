@@ -9,7 +9,7 @@
 
     --color-base-100: var(--color-neutral-900);
     --color-base-200: var(--color-neutral-950);
-    --color-base-300: var(--color-black);
+    --color-base-300: var(--color-bl);
     --color-base-content: var(--color-neutral-50);
     --color-primary: var(--color-emerald-500);
     --color-primary-content: var(--color-emerald-950);
@@ -38,7 +38,7 @@
     --size-field: var(--spacing);
 
     /* border size */
-    --border: var(--spacing);
+    --border: calc(var(--spacing) / 2);
 
     /* effects */
     --depth: 1;
