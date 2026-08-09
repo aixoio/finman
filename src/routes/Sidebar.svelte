@@ -3,7 +3,7 @@
 </script>
 
 <aside
-    class="min-h-screen w-1/4 shrink-0 border-r-2 border-r-neutral p-4 text-base-content xl:w-1/5"
+    class="min-h-screen w-1/4 shrink-0 border-r border-r-neutral p-4 text-base-content xl:w-1/5"
 >
     <h1 class="text-3xl font-bold">finman</h1>
 
