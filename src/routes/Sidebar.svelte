@@ -3,11 +3,11 @@
 </script>
 
 <aside
-    class="min-h-screen w-1/4 shrink-0 bg-sidebar-background p-4 text-foreground xl:w-1/5"
+    class="min-h-screen w-1/4 shrink-0 border-r-2 border-r-neutral p-4 text-base-content xl:w-1/5"
 >
-    <h1 class="text-3xl font-bold pb-3 border-b border-b-foreground/15">
-        finman
-    </h1>
+    <h1 class="text-3xl font-bold">finman</h1>
+
+    <div class="divider"></div>
 
     <div class="mt-2 flex flex-col gap-2">
         <SidebarLink href="/">

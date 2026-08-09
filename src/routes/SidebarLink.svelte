@@ -20,14 +20,14 @@
 {#if page.url.pathname == href}
     <a
         {href}
-        class="flex cursor-pointer active:cursor-pointer items-center gap-2 rounded-lg px-2 py-0.5 bg-sidebar-white/10 hover:bg-sidebar-white/15 active:bg-sidebar-white/20 select-none"
+        class="flex cursor-pointer active:cursor-pointer items-center gap-2 text-base-content/90 rounded-box px-2 py-0.5 bg-base-100 hover:bg-base-content/15 active:bg-base-content/20 select-none"
     >
         {@render content()}
     </a>
 {:else}
     <a
         {href}
-        class="flex cursor-pointer active:cursor-pointer items-center gap-2 rounded-lg px-2 py-0.5 hover:bg-sidebar-white/5 active:bg-sidebar-white/20 select-none"
+        class="flex cursor-pointer active:cursor-pointer items-center gap-2 text-base-content/90 rounded-box px-2 py-0.5 hover:bg-base-content/5 active:bg-base-content/20 select-none"
     >
         {@render content()}
     </a>

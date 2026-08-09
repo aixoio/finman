@@ -1,7 +1,51 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+    name: "finman";
+    default: true; /* set as default */
+    prefersdark: true; /* set as default dark mode (prefers-color-scheme:dark) */
+    color-scheme: finman; /* color of browser-provided UI */
 
-@theme inline {
+    --color-base-100: var(--color-neutral-900);
+    --color-base-200: var(--color-neutral-950);
+    --color-base-300: var(--color-black);
+    --color-base-content: var(--color-neutral-50);
+    --color-primary: var(--color-emerald-500);
+    --color-primary-content: var(--color-emerald-950);
+    --color-secondary: var(--color-blue-500);
+    --color-secondary-content: var(--color-blue-100);
+    --color-accent: var(--color-teal-500);
+    --color-accent-content: var(--color-teal-950);
+    --color-neutral: var(--color-neutral-800);
+    --color-neutral-content: var(--color-neutral-50);
+    --color-info: var(--color-cyan-400);
+    --color-info-content: var(--color-cyan-950);
+    --color-success: var(--color-green-400);
+    --color-success-content: var(--color-green-950);
+    --color-warning: var(--color-amber-400);
+    --color-warning-content: var(--color-amber-900);
+    --color-error: var(--color-red-500);
+    --color-error-content: var(--color-red-950);
+
+    /* border radius */
+    --radius-selector: var(--radius-xl);
+    --radius-field: var(--radius-lg);
+    --radius-box: var(--radius-md);
+
+    /* base sizes */
+    --size-selector: var(--spacing);
+    --size-field: var(--spacing);
+
+    /* border size */
+    --border: var(--spacing);
+
+    /* effects */
+    --depth: 1;
+    --noise: 0;
+}
+
+/*@theme inline {
     --color-foreground: var(--color-neutral-100);
     --color-background: var(--color-neutral-900);
     --color-sidebar-white: var(--color-neutral-50);
@@ -9,8 +53,4 @@
 
     --color-light-primary: var(--color-blue-300);
     --color-primary: var(--color-blue-500);
-}
-
-body {
-    @apply text-foreground bg-background;
-}
+}*/
