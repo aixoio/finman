@@ -141,7 +141,13 @@
                 class="btn btn-neutral"
                 onclick={() => target_dialog_element.close()}>Cancel</button
             >
-            <button class="btn btn-primary">Confirm</button>
+            <button
+                class="btn btn-primary"
+                onclick={() => {
+                    target = preview_target_dialog;
+                    target_dialog_element.close();
+                }}>Confirm</button
+            >
         </div>
     </div>
 </dialog>
