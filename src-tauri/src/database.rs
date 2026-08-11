@@ -48,6 +48,43 @@ impl Database {
         Ok(Self { pool })
     }
 
+    pub async fn select_item_by_uuid(&self, uuid: &str) -> AppResult<Option<Item>> {
+        let Some(row) = sqlx::query("SELECT * FROM items WHERE uuid = ? LIMIT 1")
+            .bind(uuid)
+            .fetch_optional(&self.pool)
+            .await
+            .map_err(|e| AppError::DatabaseError(e.to_string()))?
+        else {
+            return Ok(None);
+        };
+
+        let uuid = row.get("uuid");
+        let name = row.get("name");
+        let comment = row.get("comment");
+        let item_type: String = row.get("item_type");
+        let item_type: ItemType =
+            serde_json::from_str(&item_type).map_err(|e| AppError::DatabaseError(e.to_string()))?;
+        let target_cents = row.get("target_cents");
+        let current_cents = row.get("current_cents");
+        let archived = row.get("archived");
+        let created_at = row.get("created_at");
+        let updated_at = row.get("updated_at");
+
+        let item = Item {
+            uuid,
+            name,
+            comment,
+            item_type,
+            target_cents,
+            current_cents,
+            archived,
+            created_at,
+            updated_at,
+        };
+
+        Ok(Some(item))
+    }
+
     pub async fn select_all_items_not_archived(&self) -> AppResult<Vec<Item>> {
         let rows = sqlx::query("SELECT * FROM items WHERE archived = FALSE")
             .fetch_all(&self.pool)
