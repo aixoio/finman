@@ -56,6 +56,8 @@ export type AppErr = { ok: false; data: AppError };
 
 export type AppResult<V> = AppOk<V> | AppErr;
 
+export type Option<T> = T | null;
+
 export async function select_all_items_not_archived(): Promise<
   AppResult<Item[]>
 > {
@@ -95,6 +97,28 @@ export async function insert_item(
     return {
       ok: true,
       data: uuid,
+    };
+  } catch (error: unknown) {
+    if (!is_app_error(error)) throw error;
+
+    return {
+      ok: false,
+      data: error,
+    };
+  }
+}
+
+export async function fetch_item_with_uuid(
+  uuid: string,
+): Promise<AppResult<Option<Item>>> {
+  try {
+    const option: Option<Item> = await invoke("fetch_item_with_uuid", {
+      uuid,
+    });
+
+    return {
+      ok: true,
+      data: option,
     };
   } catch (error: unknown) {
     if (!is_app_error(error)) throw error;
