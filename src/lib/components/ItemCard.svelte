@@ -23,7 +23,10 @@
     );
 </script>
 
-<div class="card border border-neutral shadow bg-base-100">
+<a
+    class="card border border-neutral shadow bg-base-100 cursor-pointer"
+    href="/item/{uuid}"
+>
     <div class="card-body">
         <h1 class="card-title block max-w-full truncate">
             {name}
@@ -46,4 +49,4 @@
             <span class="text-xs text-base-content/65">{percentage}%</span>
         </div>
     </div>
-</div>
+</a>

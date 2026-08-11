@@ -35,8 +35,7 @@
 
         console.log(`uuid: ${uuid}`);
 
-        // TODO: send user to `/item/${uuid}`
-        goto("/");
+        goto(`/item/${uuid}`);
     }
 
     type TargetBtnType = "-50%" | "+50%" | "Custom %";
@@ -298,6 +297,7 @@
                             id="target"
                             class="input w-full"
                             required
+                            step="0.01"
                             disabled={loading}
                             bind:value={target}
                         />
@@ -333,6 +333,7 @@
                             id="starting"
                             class="input w-full"
                             required
+                            step="0.01"
                             disabled={loading}
                             bind:value={current}
                         />
