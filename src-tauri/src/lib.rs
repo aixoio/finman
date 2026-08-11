@@ -36,6 +36,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             commands::select_all_items_not_archived,
             commands::insert_item,
+            commands::fetch_item_with_uuid,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -49,3 +49,11 @@ pub async fn insert_item(
 
     Ok(uuid)
 }
+
+#[tauri::command]
+pub async fn fetch_item_with_uuid(
+    state: State<'_, AppState>,
+    uuid: String,
+) -> AppResult<Option<Item>> {
+    state.database.select_item_by_uuid(&uuid).await
+}
