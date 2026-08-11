@@ -68,6 +68,36 @@
 
         target_dialog_element.showModal();
     }
+
+    type StartingBtnType = "10% of target" | "50% of target" | "Custom %";
+
+    let starting_dialog_percentage: number = $state(5);
+    let preview_starting_dialog = $derived(
+        target * (starting_dialog_percentage / 100),
+    );
+
+    let starting_dialog_element: HTMLDialogElement;
+
+    function starting_dialog(btn: StartingBtnType) {
+        if (loading) return;
+
+        switch (btn) {
+            case "10% of target":
+                starting_dialog_percentage = 10;
+                break;
+            case "50% of target":
+                starting_dialog_percentage = 50;
+                break;
+            case "Custom %":
+                starting_dialog_percentage = 5;
+                break;
+
+            default:
+                break;
+        }
+
+        starting_dialog_element.showModal();
+    }
 </script>
 
 <dialog bind:this={target_dialog_element} class="modal">
@@ -75,7 +105,7 @@
         <h1 class="font-bold text-2xl">Adjust Target Amount</h1>
         <div class="flex justify-between text-sm text-base-content/50 mb-2">
             <span>Current target</span>
-            <span>${current}</span>
+            <span>${target}</span>
         </div>
 
         <span class="text-xs">Presets</span>
@@ -146,6 +176,74 @@
                 onclick={() => {
                     target = preview_target_dialog;
                     target_dialog_element.close();
+                }}>Confirm</button
+            >
+        </div>
+    </div>
+</dialog>
+
+<dialog bind:this={starting_dialog_element} class="modal">
+    <div class="modal-box border border-neutral">
+        <h1 class="font-bold text-2xl">Adjust Starting Amount</h1>
+        <div class="flex justify-between text-sm text-base-content/50 mb-2">
+            <span>Current starting amount</span>
+            <span>${current}</span>
+        </div>
+
+        <span class="text-xs">Presets</span>
+        <div class="grid grid-cols-3 gap-2">
+            <button
+                onclick={() => (starting_dialog_percentage = 5)}
+                class="btn btn-sm btn-accent">5% of target</button
+            >
+            <button
+                onclick={() => (starting_dialog_percentage = 10)}
+                class="btn btn-sm btn-accent">10% of target</button
+            >
+            <button
+                onclick={() => (starting_dialog_percentage = 50)}
+                class="btn btn-sm btn-accent">50% of target</button
+            >
+        </div>
+
+        <fieldset class="fieldset mt-2">
+            <label for="starting_percent" class="label">
+                <div class="flex justify-between w-full">
+                    <span>Percentage</span>
+                    <span>{starting_dialog_percentage}%</span>
+                </div>
+            </label>
+            <input
+                type="range"
+                name="starting_percent"
+                id="starting_percent"
+                class="range w-full range-primary"
+                min="0"
+                max="100"
+                step="1"
+                bind:value={starting_dialog_percentage}
+            />
+        </fieldset>
+
+        <div class="mt-4 border border-neutral rounded-box shadow p-4">
+            <span class="text-md font-semibold mb-3">Preview</span>
+            <div class="flex justify-between">
+                <span>{starting_dialog_percentage}% of ${target}</span>
+                <span>is</span>
+                <span>${preview_starting_dialog}</span>
+            </div>
+        </div>
+
+        <div class="modal-action">
+            <button
+                class="btn btn-neutral"
+                onclick={() => starting_dialog_element.close()}>Cancel</button
+            >
+            <button
+                class="btn btn-primary"
+                onclick={() => {
+                    current = preview_starting_dialog;
+                    starting_dialog_element.close();
                 }}>Confirm</button
             >
         </div>
@@ -242,16 +340,19 @@
                             <button
                                 type="button"
                                 class="btn btn-sm btn-accent"
+                                onclick={() => starting_dialog("10% of target")}
                                 disabled={loading}>10% of target</button
                             >
                             <button
                                 type="button"
                                 class="btn btn-sm btn-accent"
+                                onclick={() => starting_dialog("50% of target")}
                                 disabled={loading}>50% of target</button
                             >
                             <button
                                 type="button"
                                 class="btn btn-sm btn-neutral"
+                                onclick={() => starting_dialog("Custom %")}
                                 disabled={loading}>Custom %</button
                             >
                         </div>
