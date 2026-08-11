@@ -32,6 +32,7 @@ export interface Item {
 export enum AppErrorType {
   DatabaseError = "DatabaseError",
   InputError = "InputError",
+  SerdeError = "SerdeError",
 }
 
 export interface AppError {

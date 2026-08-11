@@ -63,7 +63,7 @@ impl Database {
         let comment = row.get("comment");
         let item_type: String = row.get("item_type");
         let item_type: ItemType =
-            serde_json::from_str(&item_type).map_err(|e| AppError::DatabaseError(e.to_string()))?;
+            serde_json::from_str(&item_type).map_err(|e| AppError::SerdeError(e.to_string()))?;
         let target_cents = row.get("target_cents");
         let current_cents = row.get("current_cents");
         let archived = row.get("archived");
@@ -99,7 +99,7 @@ impl Database {
             let comment = row.get("comment");
             let item_type: String = row.get("item_type");
             let item_type: ItemType = serde_json::from_str(&item_type)
-                .map_err(|e| AppError::DatabaseError(e.to_string()))?;
+                .map_err(|e| AppError::SerdeError(e.to_string()))?;
             let target_cents = row.get("target_cents");
             let current_cents = row.get("current_cents");
             let archived = row.get("archived");
@@ -132,8 +132,8 @@ impl Database {
         target_cents: i64,
         current_cents: i64,
     ) -> AppResult<String> {
-        let item_type = serde_json::to_string(&item_type)
-            .map_err(|e| AppError::DatabaseError(e.to_string()))?;
+        let item_type =
+            serde_json::to_string(&item_type).map_err(|e| AppError::SerdeError(e.to_string()))?;
         let uuid = Uuid::new_v4().to_string();
         let created_at: DateTime<Local> = Local::now();
         let created_at = created_at.to_rfc3339();

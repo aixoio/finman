@@ -12,4 +12,7 @@ pub enum AppError {
 
     #[error("input error")]
     InputError(String),
+
+    #[error("serde error")]
+    SerdeError(String),
 }
