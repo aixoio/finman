@@ -174,7 +174,7 @@
             <button
                 class="btn btn-primary"
                 onclick={() => {
-                    target = preview_target_dialog;
+                    target = Number(preview_target_dialog.toFixed(2));
                     target_dialog_element.close();
                 }}>Confirm</button
             >
@@ -242,7 +242,7 @@
             <button
                 class="btn btn-primary"
                 onclick={() => {
-                    current = preview_starting_dialog;
+                    current = Number(preview_starting_dialog.toFixed(2));
                     starting_dialog_element.close();
                 }}>Confirm</button
             >
