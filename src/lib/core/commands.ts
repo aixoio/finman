@@ -129,3 +129,57 @@ export async function fetch_item_with_uuid(
     };
   }
 }
+
+export type UpdateItemActionCompleteGoal = {
+  type: "CompleteGoal";
+};
+export type UpdateItemActionSetExact = {
+  type: "SetExact";
+  data: {
+    amount_cents: number;
+  };
+};
+export type UpdateItemActionAdd = {
+  type: "Add";
+  data: {
+    amount_cents: number;
+  };
+};
+export type UpdateItemActionSubtract = {
+  type: "Subtract";
+  data: {
+    amount_cents: number;
+  };
+};
+
+export type ItemUpdateAction =
+  | UpdateItemActionCompleteGoal
+  | UpdateItemActionSetExact
+  | UpdateItemActionAdd
+  | UpdateItemActionSubtract;
+
+export type UnitType = {};
+
+export async function update_item_with_uuid(
+  uuid: string,
+  action: ItemUpdateAction,
+): Promise<AppResult<UnitType>> {
+  try {
+    await invoke("update_item_with_uuid", {
+      uuid,
+      action,
+    });
+
+    return {
+      ok: true,
+      data: {},
+    };
+  } catch (error: unknown) {
+    if (!is_app_error(error)) throw error;
+
+    return {
+      ok: false,
+      data: error,
+    };
+  }
+}
