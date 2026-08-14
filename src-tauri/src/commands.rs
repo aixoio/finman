@@ -67,3 +67,12 @@ pub enum ItemUpdateAction {
     Add { amount_cents: i64 },
     Subtract { amount_cents: i64 },
 }
+
+#[tauri::command]
+pub async fn update_item_with_uuid(
+    state: State<'_, AppState>,
+    uuid: String,
+    action: ItemUpdateAction,
+) -> AppResult<()> {
+    unimplemented!("not ready yet!");
+}
