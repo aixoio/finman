@@ -162,13 +162,19 @@ impl Database {
         let updated_at: DateTime<Local> = Local::now();
         let updated_at = updated_at.to_rfc3339();
 
-        sqlx::query("UPDATE items SET current_cents = $1, updated_at = $2 WHERE uuid = $3")
-            .bind(amount_cents)
-            .bind(&updated_at)
-            .bind(uuid)
-            .execute(&self.pool)
-            .await
-            .map_err(|e| AppError::DatabaseError(e.to_string()))?;
+        let result =
+            sqlx::query("UPDATE items SET current_cents = $1, updated_at = $2 WHERE uuid = $3")
+                .bind(amount_cents)
+                .bind(&updated_at)
+                .bind(uuid)
+                .execute(&self.pool)
+                .await
+                .map_err(|e| AppError::DatabaseError(e.to_string()))?;
+        if result.rows_affected() == 0 {
+            return Err(AppError::DatabaseError(
+                "cannot update item, as the uuid must not exist".into(),
+            ));
+        }
 
         Ok(())
     }
