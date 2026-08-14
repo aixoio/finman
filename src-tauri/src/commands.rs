@@ -74,5 +74,23 @@ pub async fn update_item_with_uuid(
     uuid: String,
     action: ItemUpdateAction,
 ) -> AppResult<()> {
-    unimplemented!("not ready yet!");
+    match action {
+        ItemUpdateAction::CompleteGoal => {
+            let Some(item) = state.database.select_item_by_uuid(&uuid).await? else {
+                return Err(AppError::InputError(
+                    "uuid does not exist in database".into(),
+                ));
+            };
+
+            state
+                .database
+                .update_item_amount_with_uuid(&uuid, item.target_cents)
+                .await?;
+        }
+        ItemUpdateAction::SetExact { amount_cents } => {}
+        ItemUpdateAction::Add { amount_cents } => {}
+        ItemUpdateAction::Subtract { amount_cents } => {}
+    }
+
+    Ok(())
 }
