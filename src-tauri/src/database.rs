@@ -49,7 +49,7 @@ impl Database {
     }
 
     pub async fn select_item_by_uuid(&self, uuid: &str) -> AppResult<Option<Item>> {
-        let Some(row) = sqlx::query("SELECT * FROM items WHERE uuid = ? LIMIT 1")
+        let Some(row) = sqlx::query("SELECT * FROM items WHERE uuid = $1 LIMIT 1")
             .bind(uuid)
             .fetch_optional(&self.pool)
             .await
@@ -138,7 +138,7 @@ impl Database {
         let created_at: DateTime<Local> = Local::now();
         let created_at = created_at.to_rfc3339();
 
-        sqlx::query("INSERT INTO items (uuid, name, comment, item_type, target_cents, current_cents, archived, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, FALSE, ?, ?)")
+        sqlx::query("INSERT INTO items (uuid, name, comment, item_type, target_cents, current_cents, archived, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, FALSE, $7, $8)")
             .bind(&uuid)
             .bind(name)
             .bind(comment)
@@ -162,7 +162,7 @@ impl Database {
         let updated_at: DateTime<Local> = Local::now();
         let updated_at = updated_at.to_rfc3339();
 
-        sqlx::query("UPDATE items SET current_cents = ?, updated_at = ? WHERE uuid = ?")
+        sqlx::query("UPDATE items SET current_cents = $1, updated_at = $2 WHERE uuid = $3")
             .bind(amount_cents)
             .bind(&updated_at)
             .bind(uuid)
