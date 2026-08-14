@@ -1,3 +1,4 @@
+use serde::{Deserialize, Serialize};
 use tauri::State;
 
 use crate::{
@@ -56,4 +57,13 @@ pub async fn fetch_item_with_uuid(
     uuid: String,
 ) -> AppResult<Option<Item>> {
     state.database.select_item_by_uuid(&uuid).await
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(tag = "type", content = "data")]
+pub enum ItemUpdateAction {
+    CompleteGoal,
+    SetExact { amount_cents: i64 },
+    Add { amount_cents: i64 },
+    Subtract { amount_cents: i64 },
 }
