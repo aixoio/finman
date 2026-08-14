@@ -87,7 +87,12 @@ pub async fn update_item_with_uuid(
                 .update_item_amount_with_uuid(&uuid, item.target_cents)
                 .await?;
         }
-        ItemUpdateAction::SetExact { amount_cents } => {}
+        ItemUpdateAction::SetExact { amount_cents } => {
+            state
+                .database
+                .update_item_amount_with_uuid(&uuid, amount_cents)
+                .await?;
+        }
         ItemUpdateAction::Add { amount_cents } => {}
         ItemUpdateAction::Subtract { amount_cents } => {}
     }
