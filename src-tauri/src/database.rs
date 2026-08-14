@@ -153,4 +153,23 @@ impl Database {
 
         Ok(uuid)
     }
+
+    pub async fn update_item_amount_with_uuid(
+        &self,
+        uuid: &str,
+        amount_cents: i64,
+    ) -> AppResult<()> {
+        let updated_at: DateTime<Local> = Local::now();
+        let updated_at = updated_at.to_rfc3339();
+
+        sqlx::query("UPDATE items SET current_cents = ?, updated_at = ? WHERE uuid = ?")
+            .bind(amount_cents)
+            .bind(&updated_at)
+            .bind(uuid)
+            .execute(&self.pool)
+            .await
+            .map_err(|e| AppError::DatabaseError(e.to_string()))?;
+
+        Ok(())
+    }
 }
