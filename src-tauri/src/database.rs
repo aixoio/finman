@@ -195,8 +195,8 @@ impl Database {
         .bind(name)
         .bind(target_cents)
         .bind(current_cents)
-        .bind(uuid)
         .bind(&updated_at)
+        .bind(uuid)
         .execute(&self.pool)
         .await
         .map_err(|e| AppError::DatabaseError(e.to_string()))?;
