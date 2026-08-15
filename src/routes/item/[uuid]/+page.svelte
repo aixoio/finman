@@ -289,4 +289,48 @@
             </div>
         </div>
     </div>
+
+    <div class="card border border-neutral shadow bg-base-100 mt-4">
+        <div class="card-body">
+            <h1 class="card-title">Edit goal</h1>
+
+            <fieldset class="fieldset">
+                <label class="label" for="item_name">Name</label>
+                <input
+                    type="text"
+                    class="input w-full"
+                    name="item_name"
+                    id="item_name"
+                />
+
+                <div class="flex gap-2">
+                    <div class="flex-1">
+                        <label class="label" for="item_target"
+                            >Target Amount</label
+                        >
+                        <input
+                            type="number"
+                            class="input w-full"
+                            name="item_target"
+                            id="item_target"
+                        />
+                    </div>
+
+                    <div class="flex-1">
+                        <label class="label" for="item_current"
+                            >Current Amount</label
+                        >
+                        <input
+                            type="number"
+                            class="input w-full"
+                            name="item_current"
+                            id="item_current"
+                        />
+                    </div>
+                </div>
+
+                <button class="btn btn-accent btn-sm">Apply</button>
+            </fieldset>
+        </div>
+    </div>
 </div>
