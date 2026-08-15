@@ -109,7 +109,22 @@ pub async fn update_item_with_uuid(
                 .update_item_amount_with_uuid(&uuid, current_cents)
                 .await?;
         }
-        ItemUpdateAction::Subtract { amount_cents } => {}
+        ItemUpdateAction::Subtract { amount_cents } => {
+            let amount_cents = amount_cents.abs();
+
+            let Some(item) = state.database.select_item_by_uuid(&uuid).await? else {
+                return Err(AppError::InputError(
+                    "uuid does not exist in database".into(),
+                ));
+            };
+
+            let current_cents = item.current_cents - amount_cents;
+
+            state
+                .database
+                .update_item_amount_with_uuid(&uuid, current_cents)
+                .await?;
+        }
     }
 
     Ok(())
