@@ -1,6 +1,13 @@
 <div class="m-4">
     <div class="prose-invert prose">
-        <h1>license</h1>
+        <h1>License</h1>
+
+        <p>
+            Source code: <a
+                href="https://github.com/aixoio/finman"
+                target="_blank">GitHub</a
+            >
+        </p>
 
         <p>
             This program is free software: you can redistribute it and/or modify
