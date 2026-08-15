@@ -346,7 +346,43 @@
                     </div>
                 </div>
 
-                <button class="btn btn-accent btn-sm">Apply</button>
+                {#snippet apply_dialog()}
+                    <h1 class="text-2xl font-bold">Confirm</h1>
+
+                    <p>
+                        Are you sure you want to update the name, current amount
+                        and target amount of this goal?
+                    </p>
+                {/snippet}
+                <button
+                    class="btn btn-accent btn-sm"
+                    onclick={() => {
+                        item_dialog_open(
+                            onCancel,
+                            async () => {
+                                item_dialog_disabled = true;
+                                const result = await update_item_with_uuid(
+                                    data.item.uuid,
+                                    {
+                                        type: "Edit",
+                                        data: {
+                                            name: edit_item_name,
+                                            current_cents:
+                                                edit_item_current * 100,
+                                            target_cents:
+                                                edit_item_target * 100,
+                                        },
+                                    },
+                                );
+                                if (!result.ok) error(500, result.data);
+
+                                item_dialog.close();
+                                item_dialog_disabled = false;
+                            },
+                            apply_dialog,
+                        );
+                    }}>Apply</button
+                >
             </fieldset>
         </div>
     </div>
