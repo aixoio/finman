@@ -173,7 +173,10 @@ export async function update_item_with_uuid(
       action,
     });
 
-    await invalidate(`item:${uuid}`);
+    await Promise.all([
+      invalidate(`item:${uuid}`),
+      invalidate("items:not_archived"),
+    ]);
 
     return {
       ok: true,
