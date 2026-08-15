@@ -34,38 +34,15 @@
 
     let update_item_amount: number = $state(0);
 
-    let edit_item_dirty: boolean = $state(false);
-
     let edit_item_name: string = $state("");
     let edit_item_target: number = $state(0);
     let edit_item_current: number = $state(0);
 
     $effect(() => {
-        if (!edit_item_dirty) {
-            edit_item_name = data.item.name;
-            edit_item_target = data.item.target_cents / 100;
-            edit_item_current = data.item.current_cents / 100;
-        }
+        edit_item_name = data.item.name;
+        edit_item_target = data.item.target_cents / 100;
+        edit_item_current = data.item.current_cents / 100;
     });
-
-    function edit_dirt_check() {
-        if (edit_item_name !== data.item.name) {
-            edit_item_dirty = true;
-            return;
-        }
-
-        if (edit_item_target !== data.item.target_cents / 100) {
-            edit_item_dirty = true;
-            return;
-        }
-
-        if (edit_item_current !== data.item.current_cents / 100) {
-            edit_item_dirty = true;
-            return;
-        }
-
-        edit_item_dirty = false;
-    }
 </script>
 
 <dialog bind:this={item_dialog} class="modal">
@@ -335,7 +312,6 @@
                     name="item_name"
                     id="item_name"
                     bind:value={edit_item_name}
-                    oninput={edit_dirt_check}
                 />
 
                 <div class="flex gap-2">
@@ -351,7 +327,6 @@
                             min="0"
                             step="0.01"
                             bind:value={edit_item_target}
-                            oninput={edit_dirt_check}
                         />
                     </div>
 
@@ -367,7 +342,6 @@
                             min="0"
                             step="0.01"
                             bind:value={edit_item_current}
-                            oninput={edit_dirt_check}
                         />
                     </div>
                 </div>
