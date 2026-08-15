@@ -43,6 +43,12 @@
         edit_item_target = data.item.target_cents / 100;
         edit_item_current = data.item.current_cents / 100;
     });
+
+    let edit_comment: string = $state("");
+
+    $effect(() => {
+        edit_comment = data.item.comment || "";
+    });
 </script>
 
 <dialog bind:this={item_dialog} class="modal">
@@ -387,15 +393,12 @@
         </div>
     </div>
 
-    {#if data.item.comment}
-        <div class="card border border-neutral shadow bg-base-100 mt-4">
-            <div class="card-body">
-                <h1 class="card-title">Comment</h1>
+    <div class="card border border-neutral shadow bg-base-100 mt-4">
+        <div class="card-body">
+            <h1 class="card-title">Comment</h1>
 
-                <p>
-                    {data.item.comment}
-                </p>
-            </div>
+            <textarea class="textarea w-full" rows="6" bind:value={edit_comment}
+            ></textarea>
         </div>
-    {/if}
+    </div>
 </div>
