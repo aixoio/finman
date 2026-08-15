@@ -73,6 +73,18 @@
         show_remaining
     ></ItemCard>
 
+    {#if data.item.comment}
+        <div class="card border border-neutral shadow bg-base-100 mt-4">
+            <div class="card-body">
+                <h1 class="card-title">Comment</h1>
+
+                <p>
+                    {data.item.comment}
+                </p>
+            </div>
+        </div>
+    {/if}
+
     <div class="divider"></div>
 
     <div class="card border border-neutral shadow bg-base-100">
