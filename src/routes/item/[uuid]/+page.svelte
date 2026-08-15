@@ -210,7 +210,74 @@
                         );
                     }}>Add</button
                 >
-                <button class="btn btn-neutral">Subtract</button>
+                {#snippet subtract_dialog()}
+                    <h1 class="text-2xl font-bold">Confirm</h1>
+                    <p>Are you sure you want to update this goal?</p>
+                    <div
+                        class="mt-4 border border-neutral rounded-box shadow p-4"
+                    >
+                        <div class="flex justify-between">
+                            <span class="text-md font-semibold mb-3"
+                                >Preview</span
+                            >
+                            <span class="text-xs text-base-content/50 mb-3"
+                                >-${update_item_amount.toFixed(2)}</span
+                            >
+                        </div>
+                        <div class="flex justify-between">
+                            <span
+                                >${(data.item.current_cents / 100).toFixed(
+                                    2,
+                                )}</span
+                            >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor"
+                                class="bi bi-arrow-right w-6 h-6"
+                                viewBox="0 0 16 16"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
+                                />
+                            </svg>
+                            <span
+                                >${(
+                                    (data.item.current_cents -
+                                        update_item_amount * 100) /
+                                    100
+                                ).toFixed(2)}</span
+                            >
+                        </div>
+                    </div>
+                {/snippet}
+                <button
+                    class="btn btn-neutral"
+                    onclick={() => {
+                        item_dialog_open(
+                            onCancel,
+                            async () => {
+                                item_dialog_disabled = true;
+
+                                const result = await update_item_with_uuid(
+                                    data.item.uuid,
+                                    {
+                                        type: "Subtract",
+                                        data: {
+                                            amount_cents:
+                                                update_item_amount * 100,
+                                        },
+                                    },
+                                );
+                                if (!result.ok) error(500, result.data);
+
+                                item_dialog.close();
+                                item_dialog_disabled = false;
+                            },
+                            subtract_dialog,
+                        );
+                    }}>Subtract</button
+                >
             </div>
         </div>
     </div>
