@@ -2,7 +2,7 @@ import { fetch_item_with_uuid } from "$lib/core/commands";
 import { error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
 
-export const load: PageLoad = async ({ params }) => {
+export const load: PageLoad = async ({ params, depends }) => {
   const uuid = params.uuid.trim();
 
   const result = await fetch_item_with_uuid(uuid);
@@ -11,6 +11,8 @@ export const load: PageLoad = async ({ params }) => {
     error(404, {
       message: `${uuid} not found in database`,
     });
+
+  depends(`item:${uuid}`);
 
   return {
     item: result.data,
