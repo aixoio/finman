@@ -70,7 +70,7 @@
     </div>
 </dialog>
 
-<div class="xl:mx-auto xl:max-w-2/3 not-xl:m-8">
+<div class="xl:mx-auto xl:max-w-2/3 not-xl:m-8 xl:mt-8">
     <ItemCard
         name={data.item.name}
         item_type={data.item.item_type}
