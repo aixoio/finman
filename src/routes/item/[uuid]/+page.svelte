@@ -400,7 +400,39 @@
             <textarea class="textarea w-full" rows="6" bind:value={edit_comment}
             ></textarea>
 
-            <button class="btn btn-neutral">Save</button>
+            {#snippet comment_dialog()}
+                <h1 class="text-2xl font-bold">Confirm</h1>
+
+                <p>Are you sure you want to update your comment?</p>
+            {/snippet}
+            <button
+                class="btn btn-neutral"
+                onclick={() => {
+                    item_dialog_open(
+                        onCancel,
+                        async () => {
+                            item_dialog_disabled = true;
+
+                            const update_comment = edit_comment.trim() || null;
+
+                            const result = await update_item_with_uuid(
+                                data.item.uuid,
+                                {
+                                    type: "Comment",
+                                    data: {
+                                        comment: update_comment,
+                                    },
+                                },
+                            );
+                            if (!result.ok) error(500, result.data);
+
+                            item_dialog.close();
+                            item_dialog_disabled = false;
+                        },
+                        comment_dialog,
+                    );
+                }}>Save</button
+            >
         </div>
     </div>
 </div>
