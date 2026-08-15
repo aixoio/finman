@@ -399,6 +399,8 @@
 
             <textarea class="textarea w-full" rows="6" bind:value={edit_comment}
             ></textarea>
+
+            <button class="btn btn-neutral">Save</button>
         </div>
     </div>
 </div>
