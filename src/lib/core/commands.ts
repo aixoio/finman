@@ -1,3 +1,4 @@
+import { invalidate } from "$app/navigation";
 import { invoke } from "@tauri-apps/api/core";
 
 export enum ItemType {
@@ -94,6 +95,8 @@ export async function insert_item(
       currentCents: current_cents,
     });
 
+    await invalidate("items:not_archived");
+
     return {
       ok: true,
       data: uuid,
@@ -169,6 +172,8 @@ export async function update_item_with_uuid(
       uuid,
       action,
     });
+
+    await invalidate(`item:${uuid}`);
 
     return {
       ok: true,
