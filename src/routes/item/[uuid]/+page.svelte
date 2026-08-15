@@ -91,6 +91,8 @@
 
                                 item_dialog.close();
                                 item_dialog_disabled = false;
+
+                                update_item_amount = 0;
                             },
                             complete_goal_dialog,
                         );
@@ -126,6 +128,8 @@
 
                                 item_dialog.close();
                                 item_dialog_disabled = false;
+
+                                update_item_amount = 0;
                             },
                             set_exact_dialog,
                         );
@@ -152,7 +156,7 @@
                             <span class="text-md font-semibold mb-3"
                                 >Preview</span
                             >
-                            <span class="text-xs text-base-content/50 mb-3"
+                            <span class="text-xs text-success/75 mb-3"
                                 >+${update_item_amount.toFixed(2)}</span
                             >
                         </div>
@@ -205,6 +209,8 @@
 
                                 item_dialog.close();
                                 item_dialog_disabled = false;
+
+                                update_item_amount = 0;
                             },
                             add_dialog,
                         );
@@ -220,7 +226,7 @@
                             <span class="text-md font-semibold mb-3"
                                 >Preview</span
                             >
-                            <span class="text-xs text-base-content/50 mb-3"
+                            <span class="text-xs text-error/75 mb-3"
                                 >-${update_item_amount.toFixed(2)}</span
                             >
                         </div>
@@ -273,6 +279,8 @@
 
                                 item_dialog.close();
                                 item_dialog_disabled = false;
+
+                                update_item_amount = 0;
                             },
                             subtract_dialog,
                         );
