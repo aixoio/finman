@@ -5,10 +5,10 @@
     const { children } = $props();
 </script>
 
-<div class="flex min-h-screen">
+<div class="flex h-dvh overflow-hidden">
     <Sidebar></Sidebar>
 
-    <main class="min-w-0 flex-1">
+    <main class="min-w-0 flex-1 overflow-y-auto overscroll-contain">
         {@render children()}
     </main>
 </div>
