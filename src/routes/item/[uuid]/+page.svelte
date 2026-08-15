@@ -2,6 +2,8 @@
     import ItemCard from "$lib/components/ItemCard.svelte";
     import type { Snippet } from "svelte";
     import type { PageProps } from "./$types";
+    import { update_item_with_uuid } from "$lib/core/commands";
+    import { error } from "@sveltejs/kit";
 
     const { data }: PageProps = $props();
 
@@ -23,6 +25,12 @@
 
         item_dialog.showModal();
     }
+
+    async function onCancel(): Promise<void> {
+        item_dialog.close();
+    }
+
+    let item_dialog_disabled = $state(false);
 </script>
 
 {#snippet empty()}
@@ -30,15 +38,19 @@
 {/snippet}
 
 <dialog bind:this={item_dialog} class="modal">
-    <div class="modal-box">
+    <div class="modal-box border border-neutral">
         {@render item_dialog_content()}
 
         <div class="modal-action">
-            <button class="btn btn-neutral" onclick={item_dialog_cancel}
-                >Cancel</button
+            <button
+                class="btn btn-neutral"
+                onclick={item_dialog_cancel}
+                disabled={item_dialog_disabled}>Cancel</button
             >
-            <button class="btn btn-primary" onclick={item_dialog_confirm}
-                >Confirm</button
+            <button
+                class="btn btn-primary"
+                onclick={item_dialog_confirm}
+                disabled={item_dialog_disabled}>Confirm</button
             >
         </div>
     </div>
@@ -60,7 +72,32 @@
             <h1 class="card-title">Update amount</h1>
 
             <div class="grid grid-cols-2 gap-2">
-                <button class="btn btn-sm btn-success">Complete goal</button>
+                {#snippet complete_goal_dialog()}
+                    <h1 class="text-2xl font-bold">Confirm</h1>
+                    <p>Are you sure you want to complete this goal?</p>
+                {/snippet}
+                <button
+                    class="btn btn-sm btn-success"
+                    onclick={() => {
+                        item_dialog_open(
+                            onCancel,
+                            async () => {
+                                item_dialog_disabled = true;
+                                const result = await update_item_with_uuid(
+                                    data.item.uuid,
+                                    {
+                                        type: "CompleteGoal",
+                                    },
+                                );
+                                if (!result.ok) error(500, result.data);
+
+                                item_dialog.close();
+                                item_dialog_disabled = false;
+                            },
+                            complete_goal_dialog,
+                        );
+                    }}>Complete goal</button
+                >
                 <button class="btn btn-sm btn-neutral">Set exact</button>
             </div>
 

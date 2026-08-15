@@ -33,8 +33,6 @@
         if (!result.ok) error(500, result.data);
         const uuid = result.data;
 
-        console.log(`uuid: ${uuid}`);
-
         goto(`/item/${uuid}`);
     }
 
