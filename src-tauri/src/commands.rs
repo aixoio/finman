@@ -77,6 +77,9 @@ pub enum ItemUpdateAction {
         target_cents: i64,
         current_cents: i64,
     },
+    Comment {
+        comment: Option<String>,
+    },
 }
 
 #[tauri::command]
@@ -151,6 +154,16 @@ pub async fn update_item_with_uuid(
             state
                 .database
                 .edit_item_with_uuid(&uuid, name, target_cents, current_cents)
+                .await?;
+        }
+        ItemUpdateAction::Comment { comment } => {
+            let comment = comment
+                .map(|c| c.trim().to_string())
+                .filter(|c| !c.is_empty());
+
+            state
+                .database
+                .update_comment_with_uuid(&uuid, comment.as_deref())
                 .await?;
         }
     }

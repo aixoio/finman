@@ -162,13 +162,20 @@ export type UpdateItemActionEdit = {
     current_cents: number;
   };
 };
+export type UpdateItemActionComment = {
+  type: "Comment";
+  data: {
+    comment: Option<string>;
+  };
+};
 
 export type ItemUpdateAction =
   | UpdateItemActionCompleteGoal
   | UpdateItemActionSetExact
   | UpdateItemActionAdd
   | UpdateItemActionSubtract
-  | UpdateItemActionEdit;
+  | UpdateItemActionEdit
+  | UpdateItemActionComment;
 
 export type UnitType = {};
 
