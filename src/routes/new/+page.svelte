@@ -16,8 +16,7 @@
 
         loading = true;
 
-        const insert_comment =
-            comment.trim().length === 0 ? null : comment.trim();
+        const insert_comment = comment.trim() || null;
         const target_cents = target * 100;
         const current_cents = current * 100;
 
