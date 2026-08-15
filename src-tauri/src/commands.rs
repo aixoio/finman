@@ -28,7 +28,7 @@ pub async fn insert_item(
 
     let comment = comment
         .map(|c| c.trim().to_string())
-        .filter(|c| c.is_empty());
+        .filter(|c| !c.is_empty());
 
     let target_cents = target_cents.abs();
     if target_cents == 0 {
