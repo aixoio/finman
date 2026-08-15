@@ -12,7 +12,7 @@
     let item_dialog_cancel: () => Promise<void> = $state(async () => {});
     let item_dialog_confirm: () => Promise<void> = $state(async () => {});
 
-    let item_dialog_content: Snippet = $state(empty);
+    let item_dialog_content: Snippet | undefined = $state();
 
     function item_dialog_open(
         onCancel: () => Promise<void>,
@@ -33,13 +33,9 @@
     let item_dialog_disabled = $state(false);
 </script>
 
-{#snippet empty()}
-
-{/snippet}
-
 <dialog bind:this={item_dialog} class="modal">
     <div class="modal-box border border-neutral">
-        {@render item_dialog_content()}
+        {@render item_dialog_content?.()}
 
         <div class="modal-action">
             <button
