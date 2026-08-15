@@ -96,7 +96,41 @@
                         );
                     }}>Complete goal</button
                 >
-                <button class="btn btn-sm btn-neutral">Set exact</button>
+                {#snippet set_exact_dialog()}
+                    <h1 class="text-2xl font-bold">Confirm</h1>
+                    <p>
+                        Are you sure you want to set the current amount to ${update_item_amount.toFixed(
+                            2,
+                        )}?
+                    </p>
+                {/snippet}
+                <button
+                    class="btn btn-sm btn-neutral"
+                    onclick={() => {
+                        item_dialog_open(
+                            onCancel,
+                            async () => {
+                                item_dialog_disabled = true;
+
+                                const result = await update_item_with_uuid(
+                                    data.item.uuid,
+                                    {
+                                        type: "SetExact",
+                                        data: {
+                                            amount_cents:
+                                                update_item_amount * 100,
+                                        },
+                                    },
+                                );
+                                if (!result.ok) error(500, result.data);
+
+                                item_dialog.close();
+                                item_dialog_disabled = false;
+                            },
+                            set_exact_dialog,
+                        );
+                    }}>Set exact</button
+                >
             </div>
 
             <div class="flex gap-1 mt-2">
