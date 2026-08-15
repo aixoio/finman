@@ -31,6 +31,8 @@
     }
 
     let item_dialog_disabled = $state(false);
+
+    let update_item_amount: number = $state(0);
 </script>
 
 <dialog bind:this={item_dialog} class="modal">
@@ -99,9 +101,12 @@
 
             <div class="flex gap-1 mt-2">
                 <input
-                    type="text"
+                    type="number"
                     class="input flex-1 w-full"
                     placeholder="amount"
+                    min="0"
+                    step="0.01"
+                    bind:value={update_item_amount}
                 />
                 <button class="btn btn-primary">Add</button>
                 <button class="btn btn-neutral">Subtract</button>
