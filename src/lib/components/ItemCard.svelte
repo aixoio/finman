@@ -70,7 +70,7 @@
 
 {#if uuid}
     <a
-        class="card border border-neutral shadow bg-base-100 cursor-pointer"
+        class="card border border-neutral shadow bg-base-100 cursor-pointer hover:border-base-content/15"
         href="/item/{uuid}"
     >
         {@render body()}
