@@ -63,9 +63,20 @@ pub async fn fetch_item_with_uuid(
 #[serde(tag = "type", content = "data")]
 pub enum ItemUpdateAction {
     CompleteGoal,
-    SetExact { amount_cents: i64 },
-    Add { amount_cents: i64 },
-    Subtract { amount_cents: i64 },
+    SetExact {
+        amount_cents: i64,
+    },
+    Add {
+        amount_cents: i64,
+    },
+    Subtract {
+        amount_cents: i64,
+    },
+    Edit {
+        name: String,
+        target_cents: i64,
+        current_cents: i64,
+    },
 }
 
 #[tauri::command]
@@ -123,6 +134,23 @@ pub async fn update_item_with_uuid(
             state
                 .database
                 .update_item_amount_with_uuid(&uuid, current_cents)
+                .await?;
+        }
+        ItemUpdateAction::Edit {
+            name,
+            target_cents,
+            current_cents,
+        } => {
+            let name = name.trim();
+            if name.is_empty() {
+                return Err(AppError::InputError("name is empty".into()));
+            }
+
+            let target_cents = target_cents.abs();
+
+            state
+                .database
+                .edit_item_with_uuid(&uuid, name, target_cents, current_cents)
                 .await?;
         }
     }

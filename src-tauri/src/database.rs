@@ -178,4 +178,34 @@ impl Database {
 
         Ok(())
     }
+
+    pub async fn edit_item_with_uuid(
+        &self,
+        uuid: &str,
+        name: &str,
+        target_cents: i64,
+        current_cents: i64,
+    ) -> AppResult<()> {
+        let updated_at: DateTime<Local> = Local::now();
+        let updated_at = updated_at.to_rfc3339();
+
+        let result = sqlx::query(
+            "UPDATE items SET name = $1, target_cents = $2, current_cents = $3, updated_at = $4 WHERE uuid = $5",
+        )
+        .bind(name)
+        .bind(target_cents)
+        .bind(current_cents)
+        .bind(uuid)
+        .bind(&updated_at)
+        .execute(&self.pool)
+        .await
+        .map_err(|e| AppError::DatabaseError(e.to_string()))?;
+        if result.rows_affected() == 0 {
+            return Err(AppError::DatabaseError(
+                "cannot update item, as the uuid must not exist".into(),
+            ));
+        }
+
+        Ok(())
+    }
 }

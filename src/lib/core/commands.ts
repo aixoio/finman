@@ -154,12 +154,21 @@ export type UpdateItemActionSubtract = {
     amount_cents: number;
   };
 };
+export type UpdateItemActionEdit = {
+  type: "Edit";
+  data: {
+    name: string;
+    target_cents: number;
+    current_cents: number;
+  };
+};
 
 export type ItemUpdateAction =
   | UpdateItemActionCompleteGoal
   | UpdateItemActionSetExact
   | UpdateItemActionAdd
-  | UpdateItemActionSubtract;
+  | UpdateItemActionSubtract
+  | UpdateItemActionEdit;
 
 export type UnitType = {};
 
