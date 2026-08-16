@@ -442,7 +442,47 @@
 
             <div class="flex justify-between w-full">
                 <button class="btn btn-error">Delete</button>
-                <button class="btn btn-error btn-outline">Archive</button>
+                {#snippet archive_dialog()}
+                    <h1 class="text-2xl font-bold">Archive</h1>
+                    {#if !data.item.archived}
+                        <p>
+                            Are you sure you want to archive this item, doing so
+                            will make it read-only unless you later unarchive
+                            it.
+                        </p>
+                    {:else}
+                        <p>
+                            Are you sure you want to unarchive this item, doing
+                            so will make it editable unless you later archive
+                            it.
+                        </p>
+                    {/if}
+                {/snippet}
+                <button
+                    class="btn btn-error btn-outline"
+                    onclick={() => {
+                        item_dialog_open(
+                            onCancel,
+                            async () => {
+                                item_dialog_disabled = true;
+                                const result = await update_item_with_uuid(
+                                    data.item.uuid,
+                                    {
+                                        type: "Archive",
+                                        data: {
+                                            archived: !data.item.archived,
+                                        },
+                                    },
+                                );
+                                if (!result.ok) error(500, result.data);
+
+                                item_dialog.close();
+                                item_dialog_disabled = false;
+                            },
+                            archive_dialog,
+                        );
+                    }}>{data.item.archived ? "Unarchive" : "Archive"}</button
+                >
             </div>
         </div>
     </div>
