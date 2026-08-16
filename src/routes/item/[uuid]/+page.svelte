@@ -435,4 +435,15 @@
             >
         </div>
     </div>
+
+    <div class="card border border-neutral mt-4">
+        <div class="card-body">
+            <h1 class="card-title">Actions</h1>
+
+            <div class="flex justify-between w-full">
+                <button class="btn btn-error">Delete</button>
+                <button class="btn btn-error btn-outline">Archive</button>
+            </div>
+        </div>
+    </div>
 </div>
