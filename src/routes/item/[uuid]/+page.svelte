@@ -2,8 +2,12 @@
     import ItemCard from "$lib/components/ItemCard.svelte";
     import type { Snippet } from "svelte";
     import type { PageProps } from "./$types";
-    import { update_item_with_uuid } from "$lib/core/commands";
+    import {
+        delete_item_with_uuid,
+        update_item_with_uuid,
+    } from "$lib/core/commands";
     import { error } from "@sveltejs/kit";
+    import { goto } from "$app/navigation";
 
     const { data }: PageProps = $props();
 
@@ -473,7 +477,38 @@
             <h1 class="card-title">Actions</h1>
 
             <div class="flex justify-between w-full">
-                <button class="btn btn-error">Delete</button>
+                {#snippet delete_dialog()}
+                    <h1 class="text-2xl font-bold">Delete</h1>
+                    <p>
+                        Are you sure you want to delete this item. You cannot
+                        undo this action.
+                    </p>
+                {/snippet}
+                <button
+                    class="btn btn-error"
+                    onclick={() => {
+                        item_dialog_open(
+                            onCancel,
+                            async () => {
+                                item_dialog_disabled = true;
+                                const result = await delete_item_with_uuid(
+                                    data.item.uuid,
+                                );
+                                if (!result.ok) error(500, result.data);
+
+                                item_dialog.close();
+                                item_dialog_disabled = false;
+
+                                if (data.item.archived) {
+                                    await goto("/archived");
+                                } else {
+                                    await goto("/");
+                                }
+                            },
+                            delete_dialog,
+                        );
+                    }}>Delete</button
+                >
                 {#snippet archive_dialog()}
                     <h1 class="text-2xl font-bold">
                         {data.item.archived ? "Unarchive" : "Archive"}
