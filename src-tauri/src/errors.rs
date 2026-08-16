@@ -8,11 +8,11 @@ pub type AppResult<T> = Result<T, AppError>;
 #[serde(tag = "type", content = "message")]
 pub enum AppError {
     #[error("database error")]
-    DatabaseError(String),
+    Database(String),
 
     #[error("input error")]
-    InputError(String),
+    Input(String),
 
     #[error("serde error")]
-    SerdeError(String),
+    Serde(String),
 }

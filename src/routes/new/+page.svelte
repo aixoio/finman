@@ -1,6 +1,12 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { insert_item, ItemType } from "$lib/core/commands";
+    import {
+        dollars_to_cents,
+        format_dollars,
+        is_valid_dollar_amount,
+        normalize_dollars,
+    } from "$lib/core/money";
     import { error } from "@sveltejs/kit";
 
     let loading = $state(false);
@@ -17,8 +23,8 @@
         loading = true;
 
         const insert_comment = comment.trim() || null;
-        const target_cents = target * 100;
-        const current_cents = current * 100;
+        const target_cents = dollars_to_cents(target, { allow_zero: false });
+        const current_cents = dollars_to_cents(current);
 
         const result = await insert_item(
             name,
@@ -158,7 +164,7 @@
                         d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
                     />
                 </svg>
-                <span>${preview_target_dialog.toFixed(2)}</span>
+                <span>${format_dollars(preview_target_dialog)}</span>
             </div>
         </div>
 
@@ -169,8 +175,14 @@
             >
             <button
                 class="btn btn-primary"
+                disabled={!is_valid_dollar_amount(preview_target_dialog, {
+                    allow_zero: false,
+                    allow_rounding: true,
+                })}
                 onclick={() => {
-                    target = Number(preview_target_dialog.toFixed(2));
+                    target = normalize_dollars(preview_target_dialog, {
+                        allow_zero: false,
+                    });
                     target_dialog_element.close();
                 }}>Confirm</button
             >
@@ -226,7 +238,7 @@
             <div class="flex justify-between">
                 <span>{starting_dialog_percentage}% of ${target}</span>
                 <span>is</span>
-                <span>${preview_starting_dialog.toFixed(2)}</span>
+                <span>${format_dollars(preview_starting_dialog)}</span>
             </div>
         </div>
 
@@ -237,8 +249,11 @@
             >
             <button
                 class="btn btn-primary"
+                disabled={!is_valid_dollar_amount(preview_starting_dialog, {
+                    allow_rounding: true,
+                })}
                 onclick={() => {
-                    current = Number(preview_starting_dialog.toFixed(2));
+                    current = normalize_dollars(preview_starting_dialog);
                     starting_dialog_element.close();
                 }}>Confirm</button
             >
@@ -294,6 +309,7 @@
                             id="target"
                             class="input w-full"
                             required
+                            min="0.01"
                             step="0.01"
                             disabled={loading}
                             bind:value={target}
@@ -330,6 +346,7 @@
                             id="starting"
                             class="input w-full"
                             required
+                            min="0"
                             step="0.01"
                             disabled={loading}
                             bind:value={current}

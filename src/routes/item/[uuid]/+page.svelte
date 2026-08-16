@@ -6,6 +6,14 @@
         delete_item_with_uuid,
         update_item_with_uuid,
     } from "$lib/core/commands";
+    import {
+        cents_to_dollars,
+        dollars_to_cents,
+        format_cents,
+        format_dollars,
+        is_valid_dollar_amount,
+        MAX_MONEY_CENTS,
+    } from "$lib/core/money";
     import { error } from "@sveltejs/kit";
     import { goto } from "$app/navigation";
 
@@ -37,6 +45,20 @@
     let item_dialog_disabled = $state(false);
 
     let update_item_amount: number = $state(0);
+    const update_item_amount_valid = $derived(
+        is_valid_dollar_amount(update_item_amount),
+    );
+    const update_item_cents = $derived(
+        update_item_amount_valid ? dollars_to_cents(update_item_amount) : 0,
+    );
+    const can_add = $derived(
+        update_item_amount_valid &&
+            data.item.current_cents <= MAX_MONEY_CENTS - update_item_cents,
+    );
+    const can_subtract = $derived(
+        update_item_amount_valid &&
+            update_item_cents <= data.item.current_cents,
+    );
 
     let edit_item_name: string = $state("");
     let edit_item_target: number = $state(0);
@@ -44,9 +66,17 @@
 
     $effect(() => {
         edit_item_name = data.item.name;
-        edit_item_target = data.item.target_cents / 100;
-        edit_item_current = data.item.current_cents / 100;
+        edit_item_target = cents_to_dollars(data.item.target_cents);
+        edit_item_current = cents_to_dollars(data.item.current_cents);
     });
+
+    const edit_item_valid = $derived(
+        edit_item_name.trim().length > 0 &&
+            is_valid_dollar_amount(edit_item_target, {
+                allow_zero: false,
+            }) &&
+            is_valid_dollar_amount(edit_item_current),
+    );
 
     let edit_comment: string = $state("");
 
@@ -141,14 +171,14 @@
                 {#snippet set_exact_dialog()}
                     <h1 class="text-2xl font-bold">Confirm</h1>
                     <p>
-                        Are you sure you want to set the current amount to ${update_item_amount.toFixed(
-                            2,
+                        Are you sure you want to set the current amount to ${format_dollars(
+                            update_item_amount,
                         )}?
                     </p>
                 {/snippet}
                 <button
                     class="btn btn-sm btn-neutral"
-                    disabled={data.item.archived}
+                    disabled={data.item.archived || !update_item_amount_valid}
                     onclick={() => {
                         item_dialog_open(
                             onCancel,
@@ -160,8 +190,7 @@
                                     {
                                         type: "SetExact",
                                         data: {
-                                            amount_cents:
-                                                update_item_amount * 100,
+                                            amount_cents: update_item_cents,
                                         },
                                     },
                                 );
@@ -183,6 +212,7 @@
                     type="number"
                     class="input flex-1 w-full"
                     placeholder="amount"
+                    required
                     min="0"
                     step="0.01"
                     bind:value={update_item_amount}
@@ -199,14 +229,12 @@
                                 >Preview</span
                             >
                             <span class="text-xs text-success/75 mb-3"
-                                >+${update_item_amount.toFixed(2)}</span
+                                >+${format_dollars(update_item_amount)}</span
                             >
                         </div>
                         <div class="flex justify-between">
                             <span
-                                >${(data.item.current_cents / 100).toFixed(
-                                    2,
-                                )}</span
+                                >${format_cents(data.item.current_cents)}</span
                             >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -220,18 +248,16 @@
                                 />
                             </svg>
                             <span
-                                >${(
-                                    (data.item.current_cents +
-                                        update_item_amount * 100) /
-                                    100
-                                ).toFixed(2)}</span
+                                >${format_cents(
+                                    data.item.current_cents + update_item_cents,
+                                )}</span
                             >
                         </div>
                     </div>
                 {/snippet}
                 <button
                     class="btn btn-primary"
-                    disabled={data.item.archived}
+                    disabled={data.item.archived || !can_add}
                     onclick={() => {
                         item_dialog_open(
                             onCancel,
@@ -243,8 +269,7 @@
                                     {
                                         type: "Add",
                                         data: {
-                                            amount_cents:
-                                                update_item_amount * 100,
+                                            amount_cents: update_item_cents,
                                         },
                                     },
                                 );
@@ -270,14 +295,12 @@
                                 >Preview</span
                             >
                             <span class="text-xs text-error/75 mb-3"
-                                >-${update_item_amount.toFixed(2)}</span
+                                >-${format_dollars(update_item_amount)}</span
                             >
                         </div>
                         <div class="flex justify-between">
                             <span
-                                >${(data.item.current_cents / 100).toFixed(
-                                    2,
-                                )}</span
+                                >${format_cents(data.item.current_cents)}</span
                             >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -291,18 +314,16 @@
                                 />
                             </svg>
                             <span
-                                >${(
-                                    (data.item.current_cents -
-                                        update_item_amount * 100) /
-                                    100
-                                ).toFixed(2)}</span
+                                >${format_cents(
+                                    data.item.current_cents - update_item_cents,
+                                )}</span
                             >
                         </div>
                     </div>
                 {/snippet}
                 <button
                     class="btn btn-neutral"
-                    disabled={data.item.archived}
+                    disabled={data.item.archived || !can_subtract}
                     onclick={() => {
                         item_dialog_open(
                             onCancel,
@@ -314,8 +335,7 @@
                                     {
                                         type: "Subtract",
                                         data: {
-                                            amount_cents:
-                                                update_item_amount * 100,
+                                            amount_cents: update_item_cents,
                                         },
                                     },
                                 );
@@ -345,6 +365,7 @@
                     class="input w-full"
                     name="item_name"
                     id="item_name"
+                    required
                     bind:value={edit_item_name}
                     disabled={data.item.archived}
                 />
@@ -359,7 +380,8 @@
                             class="input w-full"
                             name="item_target"
                             id="item_target"
-                            min="0"
+                            required
+                            min="0.01"
                             step="0.01"
                             bind:value={edit_item_target}
                             disabled={data.item.archived}
@@ -375,6 +397,7 @@
                             class="input w-full"
                             name="item_current"
                             id="item_current"
+                            required
                             min="0"
                             step="0.01"
                             bind:value={edit_item_current}
@@ -393,7 +416,7 @@
                 {/snippet}
                 <button
                     class="btn btn-accent btn-sm"
-                    disabled={data.item.archived}
+                    disabled={data.item.archived || !edit_item_valid}
                     onclick={() => {
                         item_dialog_open(
                             onCancel,
@@ -406,9 +429,13 @@
                                         data: {
                                             name: edit_item_name,
                                             current_cents:
-                                                edit_item_current * 100,
-                                            target_cents:
-                                                edit_item_target * 100,
+                                                dollars_to_cents(
+                                                    edit_item_current,
+                                                ),
+                                            target_cents: dollars_to_cents(
+                                                edit_item_target,
+                                                { allow_zero: false },
+                                            ),
                                         },
                                     },
                                 );

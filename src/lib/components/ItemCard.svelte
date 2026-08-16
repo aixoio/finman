@@ -3,6 +3,7 @@
         display_format_item_type,
         type ItemType,
     } from "$lib/core/commands";
+    import { format_cents } from "$lib/core/money";
 
     interface Props {
         uuid?: string;
@@ -22,16 +23,13 @@
         show_remaining = false,
     }: Props = $props();
 
-    const target = $derived(target_cents / 100);
-    const current = $derived(current_cents / 100);
-
     const percentage = $derived(
-        ((current_cents / target_cents) * 100).toFixed(2),
+        target_cents > 0
+            ? ((current_cents / target_cents) * 100).toFixed(2)
+            : "0.00",
     );
 
-    const remaining = $derived(
-        Math.max(0, (target_cents - current_cents) / 100).toFixed(2),
-    );
+    const remaining = $derived(format_cents(Math.max(0, target_cents - current_cents)));
 </script>
 
 {#snippet body()}
@@ -54,13 +52,13 @@
 
         <progress
             class="progress w-full h-4"
-            value={current_cents}
-            max={target_cents}
+            value={target_cents > 0 ? current_cents : 0}
+            max={Math.max(1, target_cents)}
         ></progress>
 
         <div class="flex justify-between">
             <span class="text-xs text-base-content/50"
-                >${current} / ${target}</span
+                >${format_cents(current_cents)} / ${format_cents(target_cents)}</span
             >
 
             <span class="text-xs text-base-content/65">{percentage}%</span>
