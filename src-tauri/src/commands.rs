@@ -179,3 +179,8 @@ pub async fn update_item_with_uuid(
 
     Ok(())
 }
+
+#[tauri::command]
+pub async fn delete_item_with_uuid(state: State<'_, AppState>, uuid: String) -> AppResult<()> {
+    state.database.delete_item_with_uuid(&uuid).await
+}

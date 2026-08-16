@@ -199,6 +199,34 @@ export async function update_item_with_uuid(
     await Promise.all([
       invalidate(`item:${uuid}`),
       invalidate("items:not_archived"),
+      invalidate("items:archived"),
+    ]);
+
+    return {
+      ok: true,
+      data: {},
+    };
+  } catch (error: unknown) {
+    if (!is_app_error(error)) throw error;
+
+    return {
+      ok: false,
+      data: error,
+    };
+  }
+}
+
+export async function delete_item_with_uuid(
+  uuid: string,
+): Promise<AppResult<UnitType>> {
+  try {
+    await invoke("delete_item_with_uuid", {
+      uuid,
+    });
+
+    await Promise.all([
+      invalidate("items:not_archived"),
+      invalidate("items:archived"),
     ]);
 
     return {

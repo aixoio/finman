@@ -252,4 +252,19 @@ impl Database {
 
         Ok(())
     }
+
+    pub async fn delete_item_with_uuid(&self, uuid: &str) -> AppResult<()> {
+        let result = sqlx::query("DELETE FROM items WHERE uuid = $1")
+            .bind(uuid)
+            .execute(&self.pool)
+            .await
+            .map_err(|e| AppError::DatabaseError(e.to_string()))?;
+        if result.rows_affected() == 0 {
+            return Err(AppError::DatabaseError(
+                "cannot update item, as the uuid must not exist".into(),
+            ));
+        }
+
+        Ok(())
+    }
 }
