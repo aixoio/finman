@@ -39,6 +39,7 @@ pub fn run() {
             commands::fetch_item_with_uuid,
             commands::update_item_with_uuid,
             commands::delete_item_with_uuid,
+            commands::select_all_items_archived,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

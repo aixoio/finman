@@ -124,6 +124,45 @@ impl Database {
         Ok(items)
     }
 
+    pub async fn select_all_items_archived(&self) -> AppResult<Vec<Item>> {
+        let rows = sqlx::query("SELECT * FROM items WHERE archived = TRUE")
+            .fetch_all(&self.pool)
+            .await
+            .map_err(|e| AppError::Database(e.to_string()))?;
+
+        let mut items = Vec::new();
+
+        for row in rows {
+            let uuid = row.get("uuid");
+            let name = row.get("name");
+            let comment = row.get("comment");
+            let item_type: String = row.get("item_type");
+            let item_type: ItemType =
+                serde_json::from_str(&item_type).map_err(|e| AppError::Serde(e.to_string()))?;
+            let target_cents = row.get("target_cents");
+            let current_cents = row.get("current_cents");
+            let archived = row.get("archived");
+            let created_at = row.get("created_at");
+            let updated_at = row.get("updated_at");
+
+            let item = Item {
+                uuid,
+                name,
+                comment,
+                item_type,
+                target_cents,
+                current_cents,
+                archived,
+                created_at,
+                updated_at,
+            };
+
+            items.push(item);
+        }
+
+        Ok(items)
+    }
+
     pub async fn insert_item(
         &self,
         name: &str,

@@ -79,6 +79,24 @@ export async function select_all_items_not_archived(): Promise<
   }
 }
 
+export async function select_all_items_archived(): Promise<AppResult<Item[]>> {
+  try {
+    const data: Item[] = await invoke("select_all_items_archived");
+
+    return {
+      ok: true,
+      data,
+    };
+  } catch (err: unknown) {
+    if (!is_app_error(err)) throw err;
+
+    return {
+      ok: false,
+      data: err,
+    };
+  }
+}
+
 export async function insert_item(
   name: string,
   comment: string | null,

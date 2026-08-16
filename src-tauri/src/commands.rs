@@ -43,6 +43,11 @@ pub async fn select_all_items_not_archived(state: State<'_, AppState>) -> AppRes
 }
 
 #[tauri::command]
+pub async fn select_all_items_archived(state: State<'_, AppState>) -> AppResult<Vec<Item>> {
+    state.database.select_all_items_archived().await
+}
+
+#[tauri::command]
 pub async fn insert_item(
     state: State<'_, AppState>,
     name: String,
