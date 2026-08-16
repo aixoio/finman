@@ -79,6 +79,25 @@
         show_remaining
     ></ItemCard>
 
+    {#if data.item.archived}
+        <div role="alert" class="alert alert-warning mt-4">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                class="bi bi-archive w-6 h-6"
+                viewBox="0 0 16 16"
+            >
+                <path
+                    d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"
+                />
+            </svg>
+            <span
+                >This item is archived and cannot be edited unless you unarchive
+                it first.</span
+            >
+        </div>
+    {/if}
+
     <div class="divider"></div>
 
     <div class="card border border-neutral shadow bg-base-100">
@@ -92,6 +111,7 @@
                 {/snippet}
                 <button
                     class="btn btn-sm btn-success"
+                    disabled={data.item.archived}
                     onclick={() => {
                         item_dialog_open(
                             onCancel,
@@ -124,6 +144,7 @@
                 {/snippet}
                 <button
                     class="btn btn-sm btn-neutral"
+                    disabled={data.item.archived}
                     onclick={() => {
                         item_dialog_open(
                             onCancel,
@@ -161,6 +182,7 @@
                     min="0"
                     step="0.01"
                     bind:value={update_item_amount}
+                    disabled={data.item.archived}
                 />
                 {#snippet add_dialog()}
                     <h1 class="text-2xl font-bold">Confirm</h1>
@@ -205,6 +227,7 @@
                 {/snippet}
                 <button
                     class="btn btn-primary"
+                    disabled={data.item.archived}
                     onclick={() => {
                         item_dialog_open(
                             onCancel,
@@ -275,6 +298,7 @@
                 {/snippet}
                 <button
                     class="btn btn-neutral"
+                    disabled={data.item.archived}
                     onclick={() => {
                         item_dialog_open(
                             onCancel,
@@ -318,6 +342,7 @@
                     name="item_name"
                     id="item_name"
                     bind:value={edit_item_name}
+                    disabled={data.item.archived}
                 />
 
                 <div class="flex gap-2">
@@ -333,6 +358,7 @@
                             min="0"
                             step="0.01"
                             bind:value={edit_item_target}
+                            disabled={data.item.archived}
                         />
                     </div>
 
@@ -348,6 +374,7 @@
                             min="0"
                             step="0.01"
                             bind:value={edit_item_current}
+                            disabled={data.item.archived}
                         />
                     </div>
                 </div>
@@ -362,6 +389,7 @@
                 {/snippet}
                 <button
                     class="btn btn-accent btn-sm"
+                    disabled={data.item.archived}
                     onclick={() => {
                         item_dialog_open(
                             onCancel,
@@ -397,8 +425,11 @@
         <div class="card-body">
             <h1 class="card-title">Comment</h1>
 
-            <textarea class="textarea w-full" rows="6" bind:value={edit_comment}
-            ></textarea>
+            <textarea
+                class="textarea w-full"
+                rows="6"
+                bind:value={edit_comment}
+                disabled={data.item.archived}></textarea>
 
             {#snippet comment_dialog()}
                 <h1 class="text-2xl font-bold">Confirm</h1>
@@ -407,6 +438,7 @@
             {/snippet}
             <button
                 class="btn btn-neutral"
+                disabled={data.item.archived}
                 onclick={() => {
                     item_dialog_open(
                         onCancel,
@@ -481,7 +513,19 @@
                             },
                             archive_dialog,
                         );
-                    }}>{data.item.archived ? "Unarchive" : "Archive"}</button
+                    }}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        class="bi bi-archive w-4 h-4"
+                        viewBox="0 0 16 16"
+                    >
+                        <path
+                            d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"
+                        />
+                    </svg>
+                    {data.item.archived ? "Unarchive" : "Archive"}</button
                 >
             </div>
         </div>
