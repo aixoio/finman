@@ -475,7 +475,9 @@
             <div class="flex justify-between w-full">
                 <button class="btn btn-error">Delete</button>
                 {#snippet archive_dialog()}
-                    <h1 class="text-2xl font-bold">Archive</h1>
+                    <h1 class="text-2xl font-bold">
+                        {data.item.archived ? "Unarchive" : "Archive"}
+                    </h1>
                     {#if !data.item.archived}
                         <p>
                             Are you sure you want to archive this item, doing so
