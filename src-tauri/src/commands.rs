@@ -80,6 +80,9 @@ pub enum ItemUpdateAction {
     Comment {
         comment: Option<String>,
     },
+    Archive {
+        archived: bool,
+    },
 }
 
 #[tauri::command]
@@ -164,6 +167,12 @@ pub async fn update_item_with_uuid(
             state
                 .database
                 .update_comment_with_uuid(&uuid, comment.as_deref())
+                .await?;
+        }
+        ItemUpdateAction::Archive { archived } => {
+            state
+                .database
+                .set_archived_state_with_uuid(&uuid, archived)
                 .await?;
         }
     }

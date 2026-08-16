@@ -232,4 +232,24 @@ impl Database {
 
         Ok(())
     }
+
+    pub async fn set_archived_state_with_uuid(&self, uuid: &str, archived: bool) -> AppResult<()> {
+        let updated_at: DateTime<Local> = Local::now();
+        let updated_at = updated_at.to_rfc3339();
+
+        let result = sqlx::query("UPDATE items SET archived = $1, updated_at = $2 WHERE uuid = $3")
+            .bind(archived)
+            .bind(&updated_at)
+            .bind(uuid)
+            .execute(&self.pool)
+            .await
+            .map_err(|e| AppError::DatabaseError(e.to_string()))?;
+        if result.rows_affected() == 0 {
+            return Err(AppError::DatabaseError(
+                "cannot update item, as the uuid must not exist".into(),
+            ));
+        }
+
+        Ok(())
+    }
 }

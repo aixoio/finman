@@ -168,6 +168,12 @@ export type UpdateItemActionComment = {
     comment: Option<string>;
   };
 };
+export type UpdateItemActionArchive = {
+  type: "Archive";
+  data: {
+    archived: boolean;
+  };
+};
 
 export type ItemUpdateAction =
   | UpdateItemActionCompleteGoal
@@ -175,7 +181,8 @@ export type ItemUpdateAction =
   | UpdateItemActionAdd
   | UpdateItemActionSubtract
   | UpdateItemActionEdit
-  | UpdateItemActionComment;
+  | UpdateItemActionComment
+  | UpdateItemActionArchive;
 
 export type UnitType = {};
 
